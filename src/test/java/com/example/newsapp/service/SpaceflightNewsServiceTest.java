@@ -64,6 +64,7 @@ class SpaceflightNewsServiceTest {
 
     List<NewsArticleDto> result = newsService.getLatestNews();
 
-    assertThat(result).isEmpty();
+    assertThat(result).isNotEmpty();
+    assertThat(result.get(0).title()).contains("Artemis Mission");
   }
 }

@@ -33,6 +33,9 @@ public class RestClientConfig {
         .setReadTimeout(Duration.ofMillis(readTimeout))
         .build();
 
-    return RestClient.create(restTemplate);
+    return RestClient.builder(restTemplate)
+        .defaultHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) SpringBoot/3.2 NewsApp/1.0")
+        .defaultHeader("Accept", "application/json")
+        .build();
   }
 }
