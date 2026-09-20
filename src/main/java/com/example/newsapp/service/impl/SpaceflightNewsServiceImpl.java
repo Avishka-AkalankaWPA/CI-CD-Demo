@@ -2,6 +2,7 @@ package com.example.newsapp.service.impl;
 
 import com.example.newsapp.dto.NewsApiResponse;
 import com.example.newsapp.dto.NewsArticleDto;
+import com.example.newsapp.dto.NewsSourceDto;
 import com.example.newsapp.service.NewsService;
 import java.util.Collections;
 import java.util.List;
