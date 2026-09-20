@@ -74,13 +74,22 @@ jobs:
       - name: 3. Deploy App & Fetch Public URL
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_SERVICE: ${{ secrets.RAILWAY_SERVICE || vars.RAILWAY_SERVICE }}
         run: |
           if [ -z "$RAILWAY_TOKEN" ]; then
             echo "::warning:: RAILWAY_TOKEN secret is not set in GitHub Repository Secrets. Skipping deployment."
             echo "To enable deployment, add RAILWAY_TOKEN in GitHub -> Settings -> Secrets and Variables -> Actions."
           else
             echo "🚀 Deploying container to Railway..."
-            railway up --detach
-            echo "🌐 Fetching public Railway domain URL..."
-            railway domain || true
+            if [ -n "$RAILWAY_SERVICE" ]; then
+              echo "Deploying to specified service: $RAILWAY_SERVICE"
+              railway up --service "$RAILWAY_SERVICE" --detach
+              echo "🌐 Fetching public Railway domain URL for $RAILWAY_SERVICE..."
+              railway domain --service "$RAILWAY_SERVICE" || true
+            else
+              echo "Attempting deployment..."
+              railway up --detach || railway up --service CI-CD-Demo --detach || railway up --service news-cicd-demo --detach || railway up --service web --detach
+              echo "🌐 Fetching public Railway domain URL..."
+              railway domain || true
+            fi
           fi
