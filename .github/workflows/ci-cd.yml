@@ -79,5 +79,5 @@ jobs:
             echo "::warning:: RAILWAY_TOKEN secret is not set in GitHub Repository Secrets. Skipping deployment."
             echo "To enable deployment, add RAILWAY_TOKEN in GitHub -> Settings -> Secrets and Variables -> Actions."
           else
-            railway up --service news-cicd-demo --detach
+            railway up --detach || railway up --service news-cicd-demo --detach
           fi
