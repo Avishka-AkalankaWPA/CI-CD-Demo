@@ -1,0 +1,83 @@
+name: Java Spring Boot CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  # ==========================================
+  # STAGE 1: Continuous Integration (CI)
+  # ==========================================
+  build-and-test:
+    name: Build, Lint & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 2. Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: 3. Verify Code Style & Linting (Checkstyle)
+        run: mvn checkstyle:check
+
+      - name: 4. Run Unit & Integration Tests
+        run: mvn test
+
+      - name: 5. Generate Code Coverage & Enforce Threshold (JaCoCo)
+        run: mvn jacoco:report jacoco:check
+
+      - name: 6. Upload Test & Coverage Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-coverage-report
+          path: target/site/jacoco/
+          retention-days: 7
+
+      - name: 7. Build Executable JAR Package
+        run: mvn package -DskipTests
+
+      - name: 8. Upload Application JAR Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-jar
+          path: target/*.jar
+          retention-days: 1
+
+  # ==========================================
+  # STAGE 2: Continuous Deployment (CD) to Railway
+  # ==========================================
+  deploy:
+    name: Deploy to Railway Cloud
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 2. Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: 3. Deploy App to Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          if [ -z "$RAILWAY_TOKEN" ]; then
+            echo "::warning:: RAILWAY_TOKEN secret is not set in GitHub Repository Secrets. Skipping deployment."
+            echo "To enable deployment, add RAILWAY_TOKEN in GitHub -> Settings -> Secrets and Variables -> Actions."
+          else
+            railway up --service news-cicd-demo --detach
+          fi
