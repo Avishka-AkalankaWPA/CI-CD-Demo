@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import com.example.newsapp.dto.NewsApiResponse;
 import com.example.newsapp.dto.NewsArticleDto;
+import com.example.newsapp.dto.NewsSourceDto;
 import com.example.newsapp.service.impl.SpaceflightNewsServiceImpl;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
