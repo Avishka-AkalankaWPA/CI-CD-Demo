@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space & Tech News</title>
+    <title>Daily News Feed</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,15 +11,16 @@
     
     <style>
         :root {
-            --bg-dark: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --primary-accent: #6366f1;
-            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --badge-purple: #a855f7;
-            --badge-purple-bg: rgba(168, 85, 247, 0.15);
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --card-border: #e2e8f0;
+            --primary-accent: #2563eb;
+            --primary-gradient: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --badge-bg: #eff6ff;
+            --badge-text: #1d4ed8;
+            --badge-border: #bfdbfe;
         }
 
         * {
@@ -30,25 +31,22 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
+            background-color: var(--bg-light);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             line-height: 1.6;
-            background-image: 
-                radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 85% 85%, rgba(168, 85, 247, 0.15) 0%, transparent 40%);
         }
 
         header {
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(12px);
+            background: #ffffff;
             border-bottom: 1px solid var(--card-border);
             padding: 1.25rem 2rem;
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
         }
 
         .header-container {
@@ -62,48 +60,46 @@
         .logo-section {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.85rem;
         }
 
         .logo-icon {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             background: var(--primary-gradient);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: 800;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+            font-size: 1.25rem;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
         }
 
         .logo-text h1 {
-            font-size: 1.25rem;
-            font-weight: 700;
+            font-size: 1.3rem;
+            font-weight: 800;
             letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text-main);
         }
 
         .logo-text p {
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
+            font-weight: 500;
         }
 
         .header-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.4rem 0.85rem;
+            padding: 0.45rem 0.95rem;
             border-radius: 9999px;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             font-weight: 600;
-            background: var(--badge-purple-bg);
-            color: var(--badge-purple);
-            border: 1px solid rgba(168, 85, 247, 0.3);
+            background: var(--badge-bg);
+            color: var(--badge-text);
+            border: 1px solid var(--badge-border);
         }
 
         main {
@@ -124,6 +120,7 @@
             font-weight: 800;
             margin-bottom: 0.5rem;
             letter-spacing: -0.03em;
+            color: var(--text-main);
         }
 
         .hero-banner p {
@@ -147,13 +144,13 @@
             display: flex;
             flex-direction: column;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
         }
 
         .news-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(99, 102, 241, 0.5);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(99, 102, 241, 0.2);
+            transform: translateY(-5px);
+            border-color: #cbd5e1;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
         }
 
         .card-image-wrapper {
@@ -161,7 +158,7 @@
             width: 100%;
             height: 190px;
             overflow: hidden;
-            background: rgba(15, 23, 42, 0.5);
+            background: #f1f5f9;
         }
 
         .card-image-wrapper img {
@@ -172,21 +169,22 @@
         }
 
         .news-card:hover .card-image-wrapper img {
-            transform: scale(1.06);
+            transform: scale(1.05);
         }
 
         .card-source-badge {
             position: absolute;
             top: 12px;
             right: 12px;
-            background: rgba(15, 23, 42, 0.75);
+            background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(6px);
-            color: white;
+            color: var(--text-main);
             padding: 0.3rem 0.7rem;
             border-radius: 6px;
             font-size: 0.75rem;
-            font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            font-weight: 700;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--card-border);
         }
 
         .card-body {
@@ -219,7 +217,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid #f1f5f9;
             padding-top: 1rem;
             margin-top: auto;
         }
@@ -228,15 +226,16 @@
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            color: #818cf8;
+            color: var(--primary-accent);
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             text-decoration: none;
             transition: color 0.2s;
         }
 
         .read-btn:hover {
-            color: #a5b4fc;
+            color: #1d4ed8;
+            text-decoration: underline;
         }
 
         .empty-state {
@@ -250,6 +249,7 @@
         .empty-state h3 {
             font-size: 1.25rem;
             margin-bottom: 0.5rem;
+            color: var(--text-main);
         }
 
         .empty-state p {
@@ -262,7 +262,7 @@
             text-align: center;
             font-size: 0.85rem;
             color: var(--text-muted);
-            background: rgba(15, 23, 42, 0.9);
+            background: #ffffff;
         }
 
         @media (max-width: 768px) {
@@ -282,22 +282,22 @@
     <header>
         <div class="header-container">
             <div class="logo-section">
-                <div class="logo-icon">🚀</div>
+                <div class="logo-icon">📰</div>
                 <div class="logo-text">
-                    <h1>Space & Tech News</h1>
-                    <p>Latest Discovery & Exploration Feed</p>
+                    <h1>Daily News Feed</h1>
+                    <p>Real-time updates &amp; global coverage</p>
                 </div>
             </div>
             <div class="header-badge">
-                <span th:text="${articleCount}">0</span> Latest Articles Loaded
+                <span th:text="${articleCount}">0</span> Articles Available
             </div>
         </div>
     </header>
 
     <main>
         <div class="hero-banner">
-            <h2>Latest Headlines & Discoveries</h2>
-            <p>Real-time news articles curated from space exploration and technology sources worldwide.</p>
+            <h2>Latest Headlines &amp; Stories</h2>
+            <p>Stay informed with real-time news articles curated from trusted global publishers.</p>
         </div>
 
         <!-- News Cards Grid -->
@@ -305,7 +305,7 @@
             <div th:each="article : ${articles}" class="news-card">
                 <div class="card-image-wrapper">
                     <img th:if="${article.imageUrl != null}" th:src="${article.imageUrl}" th:alt="${article.title}" loading="lazy" />
-                    <img th:unless="${article.imageUrl != null}" src="https://images.unsplash.com/photo-1517976487492-5750f3195933?w=600&auto=format&fit=crop&q=80" alt="Space News Placeholder" />
+                    <img th:unless="${article.imageUrl != null}" src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&auto=format&fit=crop&q=80" alt="News Placeholder" />
                     <span class="card-source-badge" th:text="${article.newsSite}">News Source</span>
                 </div>
                 <div class="card-body">
@@ -322,13 +322,13 @@
 
         <!-- Fallback Empty State -->
         <div th:if="${articleCount == 0}" class="empty-state">
-            <h3>📡 Stream Currently Offline</h3>
+            <h3>Feed Currently Unavailable</h3>
             <p>Could not load news articles at this moment. Please refresh or try again later.</p>
         </div>
     </main>
 
     <footer>
-        <p>&copy; 2026 Space &amp; Tech News. All rights reserved.</p>
+        <p>&copy; 2026 Daily News Feed. All rights reserved.</p>
     </footer>
 
 </body>
