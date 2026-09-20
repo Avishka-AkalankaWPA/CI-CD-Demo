@@ -14,4 +14,12 @@ public interface NewsService {
    * @return List of news article DTOs
    */
   List<NewsArticleDto> getLatestNews();
+
+  /**
+   * Fetches news articles matching a specific topic.
+   *
+   * @param topic Topic search keyword
+   * @return List of news article DTOs
+   */
+  List<NewsArticleDto> getLatestNews(String topic);
 }

@@ -4,7 +4,6 @@ import com.example.newsapp.dto.NewsApiResponse;
 import com.example.newsapp.dto.NewsArticleDto;
 import com.example.newsapp.dto.NewsSourceDto;
 import com.example.newsapp.service.NewsService;
-import java.util.Collections;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 /**
- * Implementation of NewsService consuming the Spaceflight News REST API.
+ * Implementation of NewsService consuming News REST API.
  */
 @Service
 public class SpaceflightNewsServiceImpl implements NewsService {
@@ -38,46 +37,56 @@ public class SpaceflightNewsServiceImpl implements NewsService {
 
   @Override
   public List<NewsArticleDto> getLatestNews() {
-    log.info("Fetching latest news from endpoint: {}", newsApiUrl);
+    return getLatestNews("bitcoin");
+  }
+
+  @Override
+  public List<NewsArticleDto> getLatestNews(String topic) {
+    String queryTopic = (topic == null || topic.isBlank()) ? "bitcoin" : topic.trim();
+    String targetUrl = newsApiUrl.contains("q=")
+        ? newsApiUrl.replaceAll("q=[^&]+", "q=" + queryTopic)
+        : newsApiUrl;
+
+    log.info("Fetching news articles for topic [{}] from endpoint: {}", queryTopic, targetUrl);
     try {
       NewsApiResponse response = restClient.get()
-          .uri(newsApiUrl)
+          .uri(targetUrl)
           .retrieve()
           .body(NewsApiResponse.class);
 
       if (response != null && response.results() != null && !response.results().isEmpty()) {
-        log.info("Successfully fetched {} news articles", response.results().size());
+        log.info("Successfully fetched {} news articles for topic: {}", response.results().size(), queryTopic);
         return response.results();
       }
     } catch (Exception e) {
-      log.error("Failed to fetch news from API endpoint: {}. Reason: {}", newsApiUrl, e.getMessage(), e);
+      log.error("Failed to fetch news from API endpoint: {}. Reason: {}", targetUrl, e.getMessage(), e);
     }
 
-    log.warn("Returning curated fallback news items due to API fetch issue");
-    return getFallbackNews();
+    log.warn("Returning curated fallback news items for topic: {}", queryTopic);
+    return getFallbackNews(queryTopic);
   }
 
-  private List<NewsArticleDto> getFallbackNews() {
+  private List<NewsArticleDto> getFallbackNews(String topic) {
     return List.of(
         new NewsArticleDto(
             new NewsSourceDto("gizmodo", "Gizmodo"),
             "Kyle Torpey",
-            "Why Bitcoin's Price Is Spiking This Week",
-            "Bitcoin's latest rally comes as Treasury debt buybacks and expanding U.S. sanctions highlight the risks of a dollar-dominated financial system.",
-            "https://gizmodo.com/why-bitcoins-price-is-spiking-this-week-2000803801",
-            "https://gizmodo.com/app/uploads/2026/08/why-bitcoin-price-is-spiking-1200x675.jpg",
-            "2026-08-27T17:50:23Z",
-            "Bitcoin is experiencing an epic rebound..."
+            "Why " + topic.substring(0, 1).toUpperCase() + topic.substring(1) + " Market Is Trending This Week",
+            "Latest insights and analysis on global trends, economic indicators, and market momentum.",
+            "https://gizmodo.com",
+            "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&auto=format&fit=crop&q=80",
+            "2026-09-20T17:00:00Z",
+            "Full market analysis and background details..."
         ),
         new NewsArticleDto(
             new NewsSourceDto("slashdot", "Slashdot"),
             "EditorDavid",
-            "Bitcoin-based Liquid Network Says $320 Million Withdrawn in Hack",
-            "Liquid Network, a Bitcoin-based payments and settlement network, said about $320 million was withdrawn from its federation wallet in a hack.",
-            "https://yro.slashdot.org/story/26/09/07/0727220/bitcoin-based-liquid-network-says-320-million-withdrawn-in-hack",
-            "https://a.fsdn.com/sd/topics/bitcoin_64.png",
-            "2026-09-07T07:30:00Z",
-            "The Fine Print: The following comments are owned by whoever posted them..."
+            "Global " + topic.substring(0, 1).toUpperCase() + topic.substring(1) + " Network Updates & Reports",
+            "Summary of key sector developments and technological innovations reported worldwide.",
+            "https://slashdot.org",
+            "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=600&auto=format&fit=crop&q=80",
+            "2026-09-20T15:30:00Z",
+            "Coverage of key developments and technical updates..."
         )
     );
   }
