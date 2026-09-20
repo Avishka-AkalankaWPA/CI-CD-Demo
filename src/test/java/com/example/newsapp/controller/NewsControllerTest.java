@@ -39,7 +39,7 @@ class NewsControllerTest {
         "Content snippet"
     );
 
-    when(newsService.getLatestNews()).thenReturn(List.of(mockArticle));
+    when(newsService.getLatestNews(org.mockito.ArgumentMatchers.anyString())).thenReturn(List.of(mockArticle));
 
     mockMvc.perform(get("/"))
         .andExpect(status().isOk())

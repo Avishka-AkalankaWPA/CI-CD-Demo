@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Controller for handling web requests and binding Thymeleaf views.
@@ -37,14 +38,18 @@ public class NewsController {
   /**
    * Renders the home page dashboard with news headlines.
    *
+   * @param topic Filter topic parameter
    * @param model Spring MVC Model
    * @return View name "index"
    */
   @GetMapping("/")
-  public String getHomePage(Model model) {
-    List<NewsArticleDto> articles = newsService.getLatestNews();
+  public String getHomePage(
+      @RequestParam(name = "topic", defaultValue = "bitcoin") String topic,
+      Model model) {
+    List<NewsArticleDto> articles = newsService.getLatestNews(topic);
 
     model.addAttribute("articles", articles);
+    model.addAttribute("activeTopic", topic);
     model.addAttribute("environment", environment);
     model.addAttribute("buildVersion", buildVersion);
     model.addAttribute("articleCount", articles.size());
