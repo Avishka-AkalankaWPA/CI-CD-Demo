@@ -36,15 +36,16 @@ class SpaceflightNewsServiceTest {
   @DisplayName("Should return news articles when REST API call succeeds")
   void getLatestNews_Success() {
     NewsArticleDto article = new NewsArticleDto(
-        1,
+        new NewsSourceDto("nasa", "NASA Spaceflight"),
+        "Author Name",
         "NASA Artemis Mission Update",
+        "Summary of NASA Artemis mission",
         "https://example.com/article1",
         "https://example.com/image1.jpg",
-        "Summary of NASA Artemis mission",
         "2026-09-20T12:00:00Z",
-        "NASA Spaceflight"
+        "Content snippet"
     );
-    NewsApiResponse mockResponse = new NewsApiResponse(1, null, List.of(article));
+    NewsApiResponse mockResponse = new NewsApiResponse("ok", 1, List.of(article));
 
     when(restClient.get().uri(anyString()).retrieve().body(NewsApiResponse.class))
         .thenReturn(mockResponse);
@@ -53,7 +54,7 @@ class SpaceflightNewsServiceTest {
 
     assertThat(result).hasSize(1);
     assertThat(result.get(0).title()).isEqualTo("NASA Artemis Mission Update");
-    assertThat(result.get(0).newsSite()).isEqualTo("NASA Spaceflight");
+    assertThat(result.get(0).getNewsSite()).isEqualTo("NASA Spaceflight");
   }
 
   @Test
@@ -65,6 +66,6 @@ class SpaceflightNewsServiceTest {
     List<NewsArticleDto> result = newsService.getLatestNews();
 
     assertThat(result).isNotEmpty();
-    assertThat(result.get(0).title()).contains("Artemis Mission");
+    assertThat(result.get(0).title()).contains("Bitcoin");
   }
 }

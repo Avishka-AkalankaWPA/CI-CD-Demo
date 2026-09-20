@@ -29,13 +29,14 @@ class NewsControllerTest {
   @DisplayName("Should render index view with articles model attributes")
   void getHomePage_Success() throws Exception {
     NewsArticleDto mockArticle = new NewsArticleDto(
-        101,
+        new com.example.newsapp.dto.NewsSourceDto("spacex", "SpaceX News"),
+        "Author",
         "SpaceX Starship Launch Test",
+        "Starship test flight succeeds.",
         "https://example.com/spacex",
         "https://example.com/starship.jpg",
-        "Starship test flight succeeds.",
         "2026-09-20T10:00:00Z",
-        "SpaceX News"
+        "Content snippet"
     );
 
     when(newsService.getLatestNews()).thenReturn(List.of(mockArticle));

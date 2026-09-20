@@ -11,7 +11,7 @@ server:
 
 news:
   api:
-    url: "https://api.spaceflightnewsapi.net/v4/articles/?limit=6"
+    url: "${NEWS_API_URL:https://newsapi.org/v2/everything?q=bitcoin&apiKey=fafbb6496d3b41d4b412e2482b0e070c}"
     connect-timeout-ms: 5000
     read-timeout-ms: 5000
 

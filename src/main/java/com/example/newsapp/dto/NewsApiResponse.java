@@ -1,16 +1,17 @@
 package com.example.newsapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * Data Transfer Object representing the API response wrapper.
+ * Data Transfer Object representing the NewsAPI response wrapper.
  *
- * @param count    Total count of items
- * @param next     Next page URL if any
- * @param results  List of news articles
+ * @param status       Response status ("ok" or "error")
+ * @param totalResults Total count of matching articles
+ * @param results      List of news articles
  */
 public record NewsApiResponse(
-    int count,
-    String next,
-    List<NewsArticleDto> results
+    String status,
+    int totalResults,
+    @JsonProperty("articles") List<NewsArticleDto> results
 ) {}

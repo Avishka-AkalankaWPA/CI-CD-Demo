@@ -59,31 +59,24 @@ public class SpaceflightNewsServiceImpl implements NewsService {
   private List<NewsArticleDto> getFallbackNews() {
     return List.of(
         new NewsArticleDto(
-            1,
-            "NASA Artemis Mission Prepares for Next Moon Flight",
-            "https://www.nasa.gov",
-            "https://images.unsplash.com/photo-1517976487492-5750f3195933?w=600&auto=format&fit=crop&q=80",
-            "Engineers complete final preparations for the upcoming lunar orbital mission, marking a new milestone in space exploration.",
-            "2026-09-20T12:00:00Z",
-            "NASA"
+            new NewsSourceDto("gizmodo", "Gizmodo"),
+            "Kyle Torpey",
+            "Why Bitcoin's Price Is Spiking This Week",
+            "Bitcoin's latest rally comes as Treasury debt buybacks and expanding U.S. sanctions highlight the risks of a dollar-dominated financial system.",
+            "https://gizmodo.com/why-bitcoins-price-is-spiking-this-week-2000803801",
+            "https://gizmodo.com/app/uploads/2026/08/why-bitcoin-price-is-spiking-1200x675.jpg",
+            "2026-08-27T17:50:23Z",
+            "Bitcoin is experiencing an epic rebound..."
         ),
         new NewsArticleDto(
-            2,
-            "James Webb Space Telescope Observes Distant Exoplanet Atmosphere",
-            "https://www.esa.int",
-            "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80",
-            "New spectroscopic data reveals water vapor and complex chemical signatures in the atmosphere of a super-Earth planet.",
-            "2026-09-20T10:30:00Z",
-            "ESA"
-        ),
-        new NewsArticleDto(
-            3,
-            "Commercial Space Station Modules Enter Final Testing Phase",
-            "https://spaceflightnow.com",
-            "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=600&auto=format&fit=crop&q=80",
-            "Next-generation orbital habitats undergo vacuum chamber testing prior to scheduled commercial deployment.",
-            "2026-09-20T08:15:00Z",
-            "Spaceflight Now"
+            new NewsSourceDto("slashdot", "Slashdot"),
+            "EditorDavid",
+            "Bitcoin-based Liquid Network Says $320 Million Withdrawn in Hack",
+            "Liquid Network, a Bitcoin-based payments and settlement network, said about $320 million was withdrawn from its federation wallet in a hack.",
+            "https://yro.slashdot.org/story/26/09/07/0727220/bitcoin-based-liquid-network-says-320-million-withdrawn-in-hack",
+            "https://a.fsdn.com/sd/topics/bitcoin_64.png",
+            "2026-09-07T07:30:00Z",
+            "The Fine Print: The following comments are owned by whoever posted them..."
         )
     );
   }
